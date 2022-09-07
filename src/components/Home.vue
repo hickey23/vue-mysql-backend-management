@@ -21,7 +21,7 @@
         </div>
         <el-button class="EXITBTN" type="info" @click="exit()">退出</el-button>
       </el-header> 
-
+<!-- ******************************* -->
       <!-- 主体部分 -->
       <el-container>
         <!-- 侧边栏 -->
@@ -189,7 +189,7 @@
       // color: white;
       span{
         color: #fff;
-        font-size: 30px;
+        font-size: 25px;
         
       }
     }

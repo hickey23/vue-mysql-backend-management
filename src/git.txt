@@ -1,0 +1,6 @@
+ git checkout -b users 创建新分支users
+ git merge users 把users分支合并到master
+
+ git checkout master切换到master分支
+
+ git branch查看自己在哪个分支上

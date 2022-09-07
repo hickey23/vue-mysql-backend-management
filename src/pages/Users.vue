@@ -12,7 +12,6 @@
         <el-card class="box-card">
             <div slot="header" class="clearfix">
                 <!-- <span>卡片名称</span> -->
-              
             </div>   
             <el-row>
                   <el-col :span="10">
@@ -49,19 +48,19 @@
                     <el-switch v-model="scope.row.mg_state" @change="SwitchStateChanged(scope.row.mg_state,scope.row)"></el-switch>
                   </template>
                 </el-table-column>
-                <el-table-column label="操作" width="180px">
+                <el-table-column label="操作" width="300px">
                   <template v-slot="scope">
                     <!-- 修改按钮 -->
                     <el-tooltip class="item" effect="dark" content="修改" placement="top" :enterable="false">
-                      <el-button type="primary" icon="el-icon-edit" size="mini"  @click="reviseDialog(scope.row.id)"></el-button>
+                      <el-button type="primary" icon="el-icon-edit" size="small"  @click="reviseDialog(scope.row.id)">修改</el-button>
                     </el-tooltip>
-                    <el-tooltip class="item" effect="dark" content="分享" placement="top" :enterable="false">
+                    <el-tooltip class="item" effect="dark" content="分配角色" placement="top" :enterable="false">
                      <!-- 分享按钮 -->
-                      <el-button type="warning" icon="el-icon-share" size="mini"></el-button>
+                      <el-button type="warning" icon="el-icon-share" size="small" @click="showAllocateRoleDialog(scope.row)">分配角色</el-button>
                     </el-tooltip>
                     <el-tooltip class="item" effect="dark" content="删除" placement="top" :enterable="false">
                       <!-- 删除按钮 -->
-                      <el-button type="danger" icon="el-icon-delete" size="mini" @click="DeleteUsersById(scope.row.id)"></el-button>
+                      <el-button type="danger" icon="el-icon-delete" size="small" @click="DeleteUsersById(scope.row.id)">删除</el-button>
                     </el-tooltip>
                     <!-- <el-button type="primary" icon="el-icon-search" size="mini">搜索</el-button>
                     <el-button type="primary">上传<i class="el-icon-upload el-icon--right" size="mini"></i></el-button> -->
@@ -146,6 +145,43 @@
             <el-button type="primary" @click="reviseUserInfo()">确 定</el-button>
           </span>
         </el-dialog>
+
+        <!-- //分配角色对话框 -->
+        <el-dialog
+            title="分配角色"
+            :visible.sync="setRoledialogVisible"
+            width="30%"
+            @close="allowcateRightDialogClose()"
+            >
+            <el-form :model="userInfo"  ref="allowcateRoleFormRef" label-width="100">
+              <!-- prop是验证规则属性,指定具体的校验规则 -->
+              <el-form-item label="当前的用户">
+                <!-- disabled属性,可以让禁用掉这一行 -->
+                <el-input v-model="userInfo.username"></el-input>
+              </el-form-item>
+              
+              <el-form-item label="当前的角色" prop="rolename">
+                <el-input v-model="userInfo.rolename"></el-input>
+              </el-form-item>
+              <!-- /////////////////////////// -->
+              <div class="allowcatenewrole">分配新角色</div>
+              <!-- 选择器下拉列表 -->
+              <el-select v-model="selectedRoleId" placeholder="请选择">
+                
+                  <el-option
+                    v-for="item in allRoleList"
+                    :key="item.id"
+                    :label="item.roleName"
+                    :value="item.id">
+                  </el-option>
+              </el-select>
+            </el-form> 
+
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="setRoledialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="saveNewRoleInfo(userInfo)">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
     
 </template>
@@ -197,7 +233,7 @@
                 //当前的页数
                 pagenum:1,
                 //当前每页显示多少条数据
-                pagesize:4,
+                pagesize:10,
             },
             userlist:[],
             total:0,
@@ -265,6 +301,15 @@
                 // {validator:checkPhone},
               ]
             },
+             //角色权限分配对话框
+            setRoledialogVisible:false,
+
+            //分配角色中的用户信息对象
+            userInfo:[],
+            //所有角色数据，在展示分配角色对话框里面使用
+            allRoleList:[],
+            //已选中的角色id值
+            selectedRoleId:'',
           }
         },
         methods:{
@@ -293,6 +338,7 @@
               //当newsize发生变化，也就是用户选择一次性显示及条信息的时候，需要根据newsize值重新发出请求
               this.getUserList();
           },
+          
           //监听页码值pagenum改变的事件
           handleCurrentChange(newPage){
             console.log('newpage:',newPage);
@@ -387,6 +433,7 @@
             this.$refs.reviseFormRef.resetFields();
             // this.$refs.addFormRef.resetFields();
           },
+          
           //修改用户信息并且提交，通过表单上面的validate属性
           reviseUserInfo(){
              this.$refs.reviseFormRef.validate(async (valid)=>{
@@ -453,6 +500,69 @@
             }
           },
 
+
+          //展示角色分配对话框
+          async showAllocateRoleDialog(roleinfo){
+            // *********************************************
+            //修改数组对象中的键(keys)值的函数
+            function convertKey(arr,keyMap){
+              let tempString = JSON.stringify(arr);
+              for(var key in keyMap){
+                  var reg = `/"${key}":/g`;
+                  tempString = tempString.replace(eval(reg),'"'+keyMap[key]+'":');
+              }
+              return JSON.parse(tempString);
+            }
+            //******************************************** */
+
+            //用一个空对象收到这一行的数据
+            this.userInfo=roleinfo;
+            console.log('修改键值前的userInfo:',this.userInfo);
+            // this.userInfo=this.userInfo.map(o=>{return{rolename:o.role_name}});
+            this.userInfo=convertKey(this.userInfo,{'role_name':'rolename'});
+            // console.log('Info:',info);
+            console.log('修改键值后的userInfo:',this.userInfo);
+            //在展示对话框之前，先获取所有角色列表
+            const {data:res}=await this.$http.get('roles');
+            if(res.meta.status!==200){
+              this.$AlertMessage.error('获取当前角色信息失败');
+            }
+            this.$AlertMessage.success('获取当前角色信息成功');
+
+            this.allRoleList=res.data;
+            //打印输出数据库返回的值
+            console.log('allRoleList值:',this.allRoleList);
+            this.setRoledialogVisible=true;
+          },
+
+          //点击按钮实现提交新的角色分配
+          async saveNewRoleInfo(userInfo){
+            if(!this.selectedRoleId){
+              this.$AlertMessage.error('请选中要分配的角色')
+            }
+            //后面的{}里面是请求体
+            const{data:res}=await this.$http.put(`users/${this.userInfo.id}/role`,
+            {rid:this.selectedRoleId});
+
+            if(res.meta.status!==200){
+              this.$AlertMessage.error('更新角色权限失败');
+              // console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@res:',res);
+              // console.log(this.selectedRoleId);
+            }
+            else{
+              this.$AlertMessage.success('更新角色权限成功');
+
+              this.getUserList();
+              this.setRoledialogVisible=false;
+              // console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@res:',res);
+              // console.log(this.selectedRoleId);
+            }
+          },
+          //关闭分配角色权限对话框后，重置对话框
+          allowcateRightDialogClose(){
+            this.$refs.allowcateRoleFormRef.resetFields();
+          }
+
         } 
     }
 </script>
@@ -472,5 +582,9 @@
     #addusers{
       margin-left: 30px;
       /* //也可以在上面通过el-row中的gutter属性调节button的左边距 */
+    }
+    .allowcatenewrole{
+      margin-bottom:10px;
+      margin-top:30px;
     }
 </style>

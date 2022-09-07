@@ -4,8 +4,11 @@ import Login from '../src/components/Login.vue'
 import Home from '../src/components/Home.vue'
 import Hello from '../src/pages/Hello.vue'
 import Users from '../src/pages/Users.vue'
+import Rights from '../src/pages/Rights.vue'
+import Roles from '../src/pages/Roles.vue'
 
 Vue.use(VueRouter);
+
 //解决编程式路由往同一地址跳转时会报错的情况
 const originalPush = VueRouter.prototype.push;
 const originalReplace = VueRouter.prototype.replace;
@@ -49,6 +52,14 @@ const router = new VueRouter({
                 {
                     path:'/users',
                     component:Users,
+                },
+                {
+                    path:'/rights',
+                    component:Rights,
+                },
+                {
+                    path:'/roles',
+                    component:Roles,
                 },
             ]
             
