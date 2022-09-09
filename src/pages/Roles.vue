@@ -390,9 +390,10 @@
 
                         }
                         else{
+                            this.$AlertMessage.success('修改角色信息成功');
                             this.reviseRoleDialogVisible=false;
                             this.getRoleList();
-                            this.$AlertMessage.success('修改角色信息成功');
+                            
                         }
                     }
                 })

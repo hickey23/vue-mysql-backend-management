@@ -422,7 +422,6 @@
               // this.$AlertMessage.success('查询用户信息成功');
               //用searchUserInfo保存返回得到数据
             this.searchUserInfo=res.data;
-            
             this.reviseDialogVisible=true;
           },
 

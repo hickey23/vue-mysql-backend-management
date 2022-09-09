@@ -17,6 +17,8 @@ import '../src/assets/fonts/iconfont.css'
 import './assets/css/global.css'
 //引入axios
 import axios from 'axios'
+
+import TreeTable from 'vue-table-with-tree-grid'
 axios.defaults.baseURL='http://127.0.0.1:8888/api/private/v1/';
 //通过接口获取菜单数据
 // 通过axios清求拦载添加token，保证拥有获取数据的权限
@@ -27,7 +29,8 @@ axios.interceptors.request.use(config=>{
     return config
 })
 
-
+//使用treetable
+Vue.use('tree-table',TreeTable);
 
 Vue.config.productionTip=false;
 //使用vuerouter
