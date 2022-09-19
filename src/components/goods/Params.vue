@@ -16,7 +16,6 @@
         type="warning"
         :closable="false">
         </el-alert>
-        
         <!-- // -->
         <el-row>
             <el-col class="chooseGoodsCate">
@@ -100,7 +99,7 @@
         @close="addActiveParamsdialogVisibleClose()"
         >
         <!-- <span>这是一段信息</span> -->
-        <!-- 表单域 model 字段，在使用 validate、resetFields 方法的情况下，prop属性是必填的/ -->
+        <!-- 表单域 model 字段，在使用 validate、resetFields方法的情况下，prop属性是必填的/ -->
         <!-- 传入 Form 组件的 model 中的字段 -->
         <el-form :model="addActiveParamsForm" :rules="addActiveParamsFormRules" ref="addActiveParamsFormRef">
             <el-form-item label="动态参数" prop="attr_name">

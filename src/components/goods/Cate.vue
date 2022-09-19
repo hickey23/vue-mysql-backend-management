@@ -20,7 +20,7 @@
                       <el-button slot="append" icon="el-icon-search" ></el-button>
                     </el-input>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="4" class="addCateBtn">
                 <el-button type="primary" @click="showAddGoodsDialog()">添加分类</el-button>
             </el-col>
         </el-row>
@@ -221,6 +221,7 @@
                 },
                 //父级数据列表，1,2级,调用@change事件会打印出1级和2级菜单的id，
                 ParentList:[],
+                
                 //指定级联选择器的配置对象
                 cascaderProps:{
                     //指定具体选中的值
@@ -445,5 +446,8 @@
     }
     .el-cascader{
         width: 100%;
+    }
+    .addCateBtn{
+        margin-left:30px;
     }
 </style>

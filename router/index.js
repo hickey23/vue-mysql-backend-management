@@ -8,6 +8,8 @@ import Rights from '../src/pages/Rights.vue'
 import Roles from '../src/pages/Roles.vue'
 import Cate from '../src/components/goods/Cate.vue'
 import Params from '../src/components/goods/Params.vue'
+import GoodsList from '../src/components/goods/GoodsList.vue'
+import Add from '../src/components/goods/Add.vue'
 
 Vue.use(VueRouter);
 
@@ -70,7 +72,24 @@ const router = new VueRouter({
                 {
                     path:'/params',
                     component:Params,
-                }
+                },
+                {
+                    path:'/goods',
+                    component:GoodsList,
+                    // children:[
+                    //     {
+                    //         path:'/add',
+                    //         component:Add,
+                    //     }
+                    // ]
+
+                },
+                //goods和add是兄弟关系，都属于home页面下
+                {
+                    path:'/goods/add',
+                    component:Add,
+                },
+                
             ]
             
         },
@@ -137,6 +156,15 @@ router.beforeEach((to, from, next) => {
     // else{
     //     next();
     // }
+    // if(to.path=='/goods/add'){
+    //     const tokenstr=window.sessionStorage.getItem('token');
+    //     if(tokenstr){
+    //         next();
+    //         // alert('111');
+    //     }
+
+    // }
+    // next()
     
 })
 

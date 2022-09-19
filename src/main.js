@@ -17,6 +17,11 @@ import '../src/assets/fonts/iconfont.css'
 import './assets/css/global.css'
 //引入axios
 import axios from 'axios'
+import dayjs from 'dayjs'
+import VueQuillEditor from 'vue-quill-editor'
+import "quill/dist/quill.core.css"
+import "quill/dist/quill.snow.css"
+import "quill/dist/quill.bubble.css"
 
 import TreeTable from 'vue-table-with-tree-grid'
 axios.defaults.baseURL='http://127.0.0.1:8888/api/private/v1/';
@@ -45,6 +50,11 @@ Vue.prototype.$AlertMessage=Message;
 ///把elementUI中的messagebox挂载到vue上，这样以后直接this.$XXX即可
 //这个是删除的时候的确认对话框
 Vue.prototype.$confirm=MessageBox.confirm;
+//全局使用dayjs
+Vue.prototype.$dayjs = dayjs
+
+//将富文本编辑器注册为全局可用的组件
+Vue.use(VueQuillEditor)
 
 const vm=new Vue({
   el:'#app',
