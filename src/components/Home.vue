@@ -29,7 +29,8 @@
           <div class="toggle-button" @click="toggle()">▼</div>
           <!-- 侧边栏菜单区 -->
           <!-- elementui给el-menu提供了一个属性，unique-opened表示是否保持一个子菜单展开 -->
-            <el-menu :default-openeds="['1', '3']" class="menu" :unique-opened="true" :collapse="this.istrue" :collapse-transition="false" :router="true">
+            <el-menu :default-openeds="['1', '3']" class="menu" :unique-opened="true" :collapse="this.istrue" 
+            :collapse-transition="false" :router="true">
               <!-- 导航一 -->
 
               <!-- 这个index只能获取字符串，通过tostring把他转化成字符串 -->
@@ -171,7 +172,14 @@
             //或者用一句话
             // this.istrue=!this.istrue;
           },
+          //
+          
+        },
+        mounted(){
+          var subMenu=document.getElementsByClassName('.el-menu-item-group');
+          console.log(subMenu);
         }
+
     }
 </script>
 
@@ -183,7 +191,8 @@
       // position: relative;
       display: flex;
       justify-content: space-between;
-      background-color: #373d41;
+      // background-color:rgb(25, 25, 30);
+      background-color:#757575;
       // align-items 属性定义flex子项在flex容器的当前行的侧轴（纵轴）方向上的对齐方式。
       align-items: center;
       // color: white;
@@ -241,13 +250,24 @@
 
     //侧边栏的样式
     .el-aside{
-      background-color: #333744;
+      // background-color:rgb(25, 25, 30);
+      background-color:#757575;
+      
       .el-menu{
         border-right: none;
       }
     }
+    .el-submenu :hover{
+      // background-color:rgb(255,105,0);
+      background-color:#fff;
+    }
+    .el-menu-item-group :hover{
+      background-color:rgb(255,105,0);
+    }
+
     .toggle-button{
-      background-color: #4a5064;
+      // background-color:rgb(25, 25, 30);
+      background-color:#757575;
       font-size: 20px;
       color: #fff;
       line-height: 20px;
@@ -257,7 +277,9 @@
 
     }
     .menu{
-      background-color: #373d41;
+      // background-color: #373d41;
+      // background-color:rgb(25, 25, 30);
+      background-color:#757575;
       
     }
     .el-submenu span{
@@ -269,6 +291,6 @@
     }
     //主体的样式
     .el-main{
-      background-color: #EAEDF1;
+      background-color:rgb(206, 196, 183);
     }
 </style>
