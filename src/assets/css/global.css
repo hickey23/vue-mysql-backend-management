@@ -6,6 +6,7 @@ html,body{
     padding: 0;
     /* background-image: url(../bgc.jpg); */
     min-width: 1200px;
+    
 }
 .el-breadcrumb{
     margin-bottom: 15px;
@@ -20,5 +21,8 @@ html,body{
 .ql-editor{
     min-height:500px;
 
+}
+.el-pagination{
+    text-align:center;
 }
 
